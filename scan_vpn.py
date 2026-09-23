@@ -25,7 +25,7 @@ for line in lines:
 
 reader = csv.DictReader(io.StringIO("\n".join(csv_lines)))
 servers = list(reader)
-serted_servers = sorted(servers, key=lambda s: int(s["Ping"]) if str(s["Ping"]).isdigit() else 999999)
+sorted_servers = sorted(servers, key=lambda s: int(s["Ping"]) if str(s["Ping"]).isdigit() else 999999)
 print(f"Found {len(servers)} servers\n")
 
 for i, server in enumerate(sorted_servers, start=1):
