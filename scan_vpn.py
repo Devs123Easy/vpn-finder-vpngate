@@ -3,7 +3,7 @@ import io
 import base64
 try:
     import requests
-except ImportError, ModuleNotFoundError:
+except (ImportError, ModuleNotFoundError):
     print("You need to install the requests library first! You can do it using 'py -m pip install requests'.")
 
 URL = "https://www.vpngate.net/api/iphone/"
@@ -25,10 +25,10 @@ for line in lines:
 
 reader = csv.DictReader(io.StringIO("\n".join(csv_lines)))
 servers = list(reader)
-
+serted_servers = sorted(servers, key=lambda s: int(s["Ping"]) if str(s["Ping"]).isdigit() else 999999)
 print(f"Found {len(servers)} servers\n")
 
-for i, server in enumerate(sorted(servers, key=lambda s: int(s["Ping"]) if str(s["Ping"]).isdigit() else 999999), start=1):
+for i, server in enumerate(sorted_servers, start=1):
     print(
         f"{i:<4} "
         f"{server['IP']:<16} "
@@ -45,7 +45,7 @@ while True:
     except ValueError:
         print("You need to input a number (ctrl + C to cancel)!")
         continue
-server = servers[index]
+server = sorted_servers[index]
 
 config_b64 = server["OpenVPN_ConfigData_Base64"]
 
