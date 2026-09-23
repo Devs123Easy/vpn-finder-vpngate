@@ -3,13 +3,18 @@ import io
 import base64
 try:
     import requests
-except (ImportError, ModuleNotFoundError):
+except (ImportError, ModuleNotFoundError, NameError):
     print("You need to install the requests library first! You can do it using 'py -m pip install requests'.")
+    exit(1)
 
 URL = "https://www.vpngate.net/api/iphone/"
 
-response = requests.get(URL, timeout=30)
-response.raise_for_status()
+try:
+    response = requests.get(URL, timeout=30)
+    response.raise_for_status()
+except Exception as e:
+    print(f"Failed to fetch the current servers: {e}")
+    exit(1)
 
 lines = response.text.splitlines()
 
